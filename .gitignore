@@ -1,0 +1,34 @@
+# --- Python ---
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+ 
+# --- Secrets / environment ---
+.env
+*.env
+secrets.*
+ 
+# --- Data (raw and processed are regenerated, not versioned) ---
+data/raw/*.csv
+data/processed/*.csv
+data/processed/*.parquet
+ 
+# Keep folder structure and README placeholders
+!data/raw/README.md
+!data/processed/.gitkeep
+ 
+# --- OS / editor cruft ---
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/settings.json
+ 
+# --- R ---
+.Rhistory
+.RData
+.Rproj.user/
