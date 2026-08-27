@@ -38,25 +38,47 @@ print(group_summary)
 
 # ---------------------------------------------------------------------------
 # 3. Two-proportion z-test
-# ---------------------------------------------------------------------------
+# ------------------------  ---------------------------------------------------
+
+cat("\nH0: The treatment and control population conversion rates are equal.\n")
+cat("H1: The treatment and control population conversion rates are different.\n")
 
 control_row <- group_summary |> filter(group == "control")
 treatment_row <- group_summary |> filter(group == "treatment")
 
+success <- c(
+  treatment_row$conversions,
+  control_row$conversions
+)
+
+total <- c(
+  treatment_row$users,
+  control_row$users
+)
+
 test_result <- prop.test(
-  x = c(control_row$conversions, treatment_row$conversions),
-  n = c(control_row$users, treatment_row$users)
+  x = success,
+  n = total,
+  correct = FALSE
 )
 
 absolute_lift <- treatment_row$conversion_rate - control_row$conversion_rate
 relative_lift <- absolute_lift / control_row$conversion_rate
 
-cat("\nAbsolute lift (treatment - control):", round(absolute_lift, 4), "\n")
+cat("\nAbsolute lift (treatment - control):", round(absolute_lift*100, 2), "%\n")
 cat("Relative lift:", round(relative_lift * 100, 2), "%\n")
 cat("95% CI for the difference in proportions:",
     round(test_result$conf.int[1], 4), "to", 
     round(test_result$conf.int[2], 4), "\n")
 cat("p-value:", signif(test_result$p.value, 4), "\n")
+
+alpha <- 0.05
+
+if (test_result$p.value < alpha) {
+  cat("Decision: Reject H0.\n")
+} else {
+  cat("Decision: Fail to reject H0.\n")
+}
 
 # ---------------------------------------------------------------------------
 # 4. Figure 1: conversion rate by group (bar chart)
@@ -108,4 +130,3 @@ ggsave("outputs/figures/daily_conversion_trend.png", plot = fig2,
 cat("\nSaved figures to outputs/figures/:\n")
 cat(" - conversion_rate_by_group.png\n")
 cat(" - daily_conversion_trend.png\n")
- 
