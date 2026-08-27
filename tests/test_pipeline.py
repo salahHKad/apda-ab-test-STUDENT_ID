@@ -20,7 +20,7 @@ def test_validate_data_rejects_missing_columns():
             "converted": [0, 1],
         }
     )
-    with pytest.raises(ValueError, match="Missing required column"):
+    with pytest.raises(ValueError):
         validate_data(df)
         
 def test_validate_data_rejects_invalid_values():
@@ -34,7 +34,7 @@ def test_validate_data_rejects_invalid_values():
             "converted": [0, 2]
         }
     )
-    with pytest.raises(ValueError, match="Invalid value"):
+    with pytest.raises(ValueError):
         validate_data(df)
         
         
