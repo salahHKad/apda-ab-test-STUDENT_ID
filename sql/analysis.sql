@@ -31,3 +31,15 @@ SELECT
 FROM clean_ab_data
 GROUP BY experiment_date, "group"
 ORDER BY experiment_date, "group";
+
+-- ============================================================
+-- @name: data_verification
+-- Verify total rows, distinct users, and experiment date range.
+-- After cleaning, row count and distinct-user count should agree.
+-- ============================================================
+SELECT
+    COUNT(*) AS total_rows,
+    COUNT(DISTINCT user_id) AS distinct_user_ids,
+    MIN(experiment_date) AS min_experiment_date,
+    MAX(experiment_date) AS max_experiment_date
+FROM clean_ab_data;

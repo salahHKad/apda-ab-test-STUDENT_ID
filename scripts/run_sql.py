@@ -13,7 +13,7 @@ from pathlib import Path
 
 import duckdb
 
-REQUIRED_QUERY_NAMES = ["group_summary", "daily_conversion"]
+REQUIRED_QUERY_NAMES = ["group_summary", "daily_conversion", "data_verification"]
 
 
 def parse_args() -> argparse.Namespace:
