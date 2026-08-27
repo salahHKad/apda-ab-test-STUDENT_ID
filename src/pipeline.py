@@ -91,12 +91,15 @@ def clean_data(df: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
 
     working = working.reset_index(drop=True)
 
-    assert working["user_id"].is_unique, "user_id is not unique after cleaning"
+    if not working["user_id"].is_unique:
+        raise ValueError("user_id is not unique after cleaning.")
+    
     still_misaligned = ~(
         ((working["group"] == "control") & (working["landing_page"] == "old_page"))
         | ((working["group"] == "treatment") & (working["landing_page"] == "new_page"))
     )
-    assert not still_misaligned.any(), "invalid group/landing_page pair remains after cleaning"
+    if still_misaligned.any():
+        raise ValueError("Invalid group/landing_page pair remains after cleaning.")
 
     report = {
         "rows_before": rows_before,
